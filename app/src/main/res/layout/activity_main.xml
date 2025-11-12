@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo_24" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hiking_tracker"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/track_your_adventures"
+        android:textColor="#7E7C7C"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:layout_marginStart="2dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddHike"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#48752C"
+        android:elevation="4dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text="@string/add_hike"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_add_24"
+        app:iconPadding="4dp"
+        app:rippleColor="#33FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnReset"
+        android:layout_width="70dp"
+        android:layout_height="42dp"
+        android:backgroundTint="#F0F0F0"
+        android:elevation="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="@string/reset"
+        android:textAllCaps="false"
+        android:textColor="#141414"
+        android:textSize="12sp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_database_24"
+        app:iconPadding="4dp"
+        app:iconTint="#141414"
+        app:strokeColor="#C3C0C0"
+        app:strokeWidth="1dp"
+        app:rippleColor="#22000000"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddHike"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFilters"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#F0F0F0"
+        android:elevation="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="@string/filters"
+        android:textAllCaps="false"
+        android:textColor="#141414"
+        android:textSize="12sp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_filter_24"
+        app:iconPadding="4dp"
+        app:iconTint="#141414"
+        app:strokeColor="#C3C0C0"
+        app:strokeWidth="1dp"
+        app:rippleColor="#22000000"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddHike"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="10dp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:boxBackgroundColor="#F0F0F0"
+        app:boxStrokeColor="#767474"
+        app:boxStrokeWidth="1dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:hintEnabled="false"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="90dp"
+        app:startIconDrawable="@drawable/ic_search_24"
+        app:startIconTint="#767474"
+        tools:ignore="TouchTargetSizeCheck">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/quick_search_by_name"
+            android:inputType="text"
+            android:paddingStart="1dp"
+            android:textColor="#767474"
+            android:textColorHint="#767474"
+            android:textSize="12sp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center_vertical"
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/headerDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#C3C0C0"
+        app:layout_constraintTop_toBottomOf="@+id/main"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sort"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="#F0F0F0"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:drawableStartCompat="@drawable/ic_arrange_18"
+        android:drawablePadding="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/headerDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#F0F0F0"
+        app:layout_constraintTop_toBottomOf="@+id/sort"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:background="#F0F0F0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort">
+
+        <ImageView
+            android:id="@+id/emptyIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_logo_24"
+            app:tint="#555555" />
+
+        <TextView
+            android:id="@+id/emptyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/no_hikes"
+            android:textColor="#555555"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/emptySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/try_adjusting_your_search_filters"
+            android:textColor="#777777"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnArrange"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#11767C"
+        android:elevation="4dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:text="@string/arrange"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_arrange_18"
+        app:iconPadding="4dp"
+        app:rippleColor="#33FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="10dp"
+        tools:ignore="TouchTargetSizeCheck"/>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filterPanel"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:elevation="20dp"
+        android:padding="20dp"
+        android:translationX="300dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCloseFilter"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="30dp"
+        android:padding="4dp"
+        app:icon="@drawable/ic_close_24"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/black"
+        tools:ignore="SpeakableTextPresentCheck"/>
+
+        <TextView
+        android:id="@+id/filterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filters_text_view"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/btnCloseFilter"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutFilterName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/hike_name_filters"
+        app:layout_constraintTop_toBottomOf="@id/filterTitle"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFilterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutFilterLocation"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="@string/location_filters"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilterName"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFilterLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutFilterDifficulty"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="@string/difficulty_filters"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilterLocation"
+        app:layout_constraintStart_toStartOf="parent">
+        <AutoCompleteTextView
+            android:id="@+id/autoFilterDifficulty"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="15sp"
+            android:inputType="none"
+            android:padding="12dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutFilterMin"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="@string/min_length_filters"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilterDifficulty"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFilterMin"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutFilterMax"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="@string/max_length_filters"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilterMin"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFilterMax"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClearFilters"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#AF2F27"
+        android:elevation="4dp"
+        app:cornerRadius="5dp"
+        app:icon="@drawable/ic_delete_18"
+        app:iconPadding="0dp"
+        app:iconGravity="textStart"
+        app:rippleColor="#33FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutFilterMax"
+        android:layout_marginTop="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnApplyFilters"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/apply_filters"
+        android:backgroundTint="#48752C"
+        android:textColor="@android:color/white"
+        app:cornerRadius="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutFilterMax"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="70dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
