@@ -1,9 +1,11 @@
 package com.example.hikingapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,9 @@ public class AddActivity extends AppCompatActivity {
     TextInputEditText name_input, location_input, date_input, length_input, description_input;
     AutoCompleteTextView level_input;
     SwitchMaterial available_input;
+    TextView title;
+
+    String hikeId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class AddActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         name_input = findViewById(R.id.etNameHike);
         location_input = findViewById(R.id.etLocationHike);
         date_input = findViewById(R.id.etDateHike);
@@ -41,6 +47,8 @@ public class AddActivity extends AppCompatActivity {
         description_input = findViewById(R.id.etDescriptionHike);
         esc_button = findViewById(R.id.btnCloseAdd);
         create_button = findViewById(R.id.btnCreateHike);
+        title = findViewById(R.id.titleHike);
+
         String[] levels = {"Easy", "Moderate", "Very Hard"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, levels);
         level_input.setAdapter(adapter);
@@ -65,25 +73,28 @@ public class AddActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        esc_button = findViewById(R.id.btnCloseAdd);
         esc_button.setOnClickListener(v -> finish());
-
-        create_button = findViewById(R.id.btnCreateHike);
         create_button.setOnClickListener(v -> {
             String name = name_input.getText().toString().trim();
             String location = location_input.getText().toString().trim();
             String date = date_input.getText().toString().trim();
             String level = level_input.getText().toString().trim();
-            String description = description_input.getText().toString().trim();
-            if (description.isEmpty()) {
-                description = "";
+
+            // Lấy description từ EditText, trim
+            String descriptionText = description_input.getText() == null ? null : description_input.getText().toString().trim();
+
+            // Nếu chuỗi rỗng -> ép thành null để updateHike hiểu là "xóa"
+            if (descriptionText != null && descriptionText.isEmpty()) {
+                descriptionText = null;
             }
+
             if (name.isEmpty() || location.isEmpty() || date.isEmpty() || level.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             String lengthStr = length_input.getText().toString().trim();
-            int length = 0;
+            int length;
             try {
                 length = Integer.parseInt(lengthStr);
             } catch (NumberFormatException e) {
@@ -94,21 +105,65 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(this, "Length must be between 0 and 100.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String available = available_input.isChecked() ? "Parking" : "No Parking";
 
+            String available = available_input.isChecked() ? "1" : "0";
             MyDatabaseHelper myDB = new MyDatabaseHelper(AddActivity.this);
-            myDB.addHike(
-                    name,
-                    location,
-                    date,
-                    String.valueOf(length),
-                    level,
-                    available,
-                    description.isEmpty() ? null : description
-            );
-            Toast.makeText(this, "Hike added successfully!", Toast.LENGTH_SHORT).show();
+
+            boolean success;
+            if (hikeId != null && !hikeId.trim().isEmpty()) {
+                // Cập nhật: truyền descriptionText (có thể là null)
+                success = myDB.updateHike(hikeId, name, location, date, String.valueOf(length), level, available, descriptionText);
+                if (success) {
+                    Toast.makeText(this, "Hike updated successfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Update failed", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else {
+                // Thêm mới (nếu descriptionText == null -> addHike nên xử lý null OK)
+                myDB.addHike(name, location, date, String.valueOf(length), level, available, descriptionText);
+                Toast.makeText(this, "Hike added successfully!", Toast.LENGTH_SHORT).show();
+            }
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("updated", true);
+            setResult(RESULT_OK, resultIntent);
             finish();
         });
 
+        Intent intent = getIntent();
+        hikeId = intent.getStringExtra("hike_id");
+        boolean isUpdate = hikeId != null && !hikeId.trim().isEmpty();
+
+        if (isUpdate) {
+            // Điền dữ liệu vào form
+            name_input.setText(intent.getStringExtra("name"));
+            location_input.setText(intent.getStringExtra("location"));
+            date_input.setText(intent.getStringExtra("date"));
+            length_input.setText(intent.getStringExtra("length"));
+
+            String levelValue = intent.getStringExtra("level");
+            if (levelValue != null) {
+                level_input.setText(levelValue, false);
+            }
+
+            // ✅ Xử lý available: "1" hoặc "true" => bật switch
+            String availableVal = intent.getStringExtra("available");
+            available_input.setChecked("1".equals(availableVal) || "true".equalsIgnoreCase(availableVal));
+
+            // ✅ Xử lý description: chỉ hiển thị nếu có giá trị thực sự
+            String desc = intent.getStringExtra("description");
+            if (desc != null && !desc.trim().isEmpty() && !"null".equalsIgnoreCase(desc)) {
+                description_input.setText(desc);
+            } else {
+                description_input.setText(""); // giữ view không null
+            }
+
+            create_button.setText("Update Hike");
+            title.setText("Update This Hike");
+        } else {
+            create_button.setText("Add Hike");
+            title.setText("Create New Hike");
+        }
     }
 }

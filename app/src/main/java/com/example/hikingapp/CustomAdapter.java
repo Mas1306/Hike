@@ -48,7 +48,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.hike_date_txt.setText(hike_date.get(position));
         holder.hike_length_txt.setText(hike_length.get(position));
         holder.hike_level_txt.setText(hike_level.get(position));
-        holder.hike_available_txt.setText(hike_available.get(position));
+        String availableVal = hike_available.get(position);
+        if ("1".equals(availableVal)) {
+            holder.hike_available_txt.setText("Parking Available");
+        } else {
+            holder.hike_available_txt.setText("No Parking");
+        }
 
         String desc = hike_description.get(position);
 
@@ -86,16 +91,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             }
         });
         holder.btnViewDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra("id", hike_id.get(position));
-            intent.putExtra("name", hike_name.get(position));
-            intent.putExtra("location", hike_location.get(position));
-            intent.putExtra("date", hike_date.get(position));
-            intent.putExtra("length", hike_length.get(position));
-            intent.putExtra("level", hike_level.get(position));
-            intent.putExtra("available", hike_available.get(position));
-            intent.putExtra("description", hike_description.get(position));
-            context.startActivity(intent);
+            Intent detailsIntent = new Intent(context, DetailsActivity.class);
+            String hikeId = hike_id.get(holder.getAdapterPosition());
+            detailsIntent.putExtra("hike_id", hikeId);
+            detailsIntent.putExtra("name", hike_name.get(position));
+            detailsIntent.putExtra("location", hike_location.get(position));
+            detailsIntent.putExtra("date", hike_date.get(position));
+            detailsIntent.putExtra("length", hike_length.get(position));
+            detailsIntent.putExtra("level", hike_level.get(position));
+            String availableValue = hike_available.get(position);
+            if ("1".equals(availableValue)) {
+                detailsIntent.putExtra("available", "Parking Available");
+            } else {
+                detailsIntent.putExtra("available", "No Parking");
+            }
+            detailsIntent.putExtra("description", hike_description.get(position));
+            context.startActivity(detailsIntent);
         });
     }
     private GradientDrawable createLevelBackground(int backgroundColor) {
