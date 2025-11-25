@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -26,28 +28,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo_24" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hiking_tracker"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="2dp"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hiking_tracker"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/btnReset"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"/>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/track_your_adventures"
-        android:textColor="#7E7C7C"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        android:layout_marginStart="2dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/track_your_adventures"
+            android:textColor="#7E7C7C"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintStart_toEndOf="@id/imageView"
+            app:layout_constraintEnd_toStartOf="@+id/btnReset"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddHike"
@@ -73,12 +79,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnReset"
-        android:layout_width="70dp"
-        android:layout_height="42dp"
+        android:layout_width="80dp"
+        android:layout_height="46dp"
         android:backgroundTint="#F0F0F0"
         android:elevation="4dp"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:text="@string/reset"
         android:textAllCaps="false"
         android:textColor="#141414"
@@ -93,7 +99,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnAddHike"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="10dp"
         tools:ignore="TouchTargetSizeCheck"/>
 
     <com.google.android.material.button.MaterialButton
@@ -115,9 +121,9 @@
         app:strokeColor="#C3C0C0"
         app:strokeWidth="1dp"
         app:rippleColor="#22000000"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddHike"
+        app:layout_constraintBaseline_toBaselineOf="@+id/searchLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         tools:ignore="TouchTargetSizeCheck"/>
 
@@ -140,7 +146,6 @@
         app:startIconDrawable="@drawable/ic_search_24"
         app:startIconTint="#767474"
         tools:ignore="TouchTargetSizeCheck">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"

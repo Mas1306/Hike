@@ -79,20 +79,14 @@ public class AddActivity extends AppCompatActivity {
             String location = location_input.getText().toString().trim();
             String date = date_input.getText().toString().trim();
             String level = level_input.getText().toString().trim();
-
-            // Lấy description từ EditText, trim
             String descriptionText = description_input.getText() == null ? null : description_input.getText().toString().trim();
-
-            // Nếu chuỗi rỗng -> ép thành null để updateHike hiểu là "xóa"
             if (descriptionText != null && descriptionText.isEmpty()) {
                 descriptionText = null;
             }
-
             if (name.isEmpty() || location.isEmpty() || date.isEmpty() || level.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             String lengthStr = length_input.getText().toString().trim();
             int length;
             try {
@@ -111,7 +105,6 @@ public class AddActivity extends AppCompatActivity {
 
             boolean success;
             if (hikeId != null && !hikeId.trim().isEmpty()) {
-                // Cập nhật: truyền descriptionText (có thể là null)
                 success = myDB.updateHike(hikeId, name, location, date, String.valueOf(length), level, available, descriptionText);
                 if (success) {
                     Toast.makeText(this, "Hike updated successfully!", Toast.LENGTH_SHORT).show();
@@ -120,7 +113,6 @@ public class AddActivity extends AppCompatActivity {
                     return;
                 }
             } else {
-                // Thêm mới (nếu descriptionText == null -> addHike nên xử lý null OK)
                 myDB.addHike(name, location, date, String.valueOf(length), level, available, descriptionText);
                 Toast.makeText(this, "Hike added successfully!", Toast.LENGTH_SHORT).show();
             }
@@ -136,7 +128,6 @@ public class AddActivity extends AppCompatActivity {
         boolean isUpdate = hikeId != null && !hikeId.trim().isEmpty();
 
         if (isUpdate) {
-            // Điền dữ liệu vào form
             name_input.setText(intent.getStringExtra("name"));
             location_input.setText(intent.getStringExtra("location"));
             date_input.setText(intent.getStringExtra("date"));
@@ -146,17 +137,13 @@ public class AddActivity extends AppCompatActivity {
             if (levelValue != null) {
                 level_input.setText(levelValue, false);
             }
-
-            // ✅ Xử lý available: "1" hoặc "true" => bật switch
             String availableVal = intent.getStringExtra("available");
             available_input.setChecked("1".equals(availableVal) || "true".equalsIgnoreCase(availableVal));
-
-            // ✅ Xử lý description: chỉ hiển thị nếu có giá trị thực sự
             String desc = intent.getStringExtra("description");
             if (desc != null && !desc.trim().isEmpty() && !"null".equalsIgnoreCase(desc)) {
                 description_input.setText(desc);
             } else {
-                description_input.setText(""); // giữ view không null
+                description_input.setText("");
             }
 
             create_button.setText("Update Hike");

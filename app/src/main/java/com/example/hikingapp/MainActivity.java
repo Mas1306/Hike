@@ -340,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
                 new ArrayList<>(master_description)
         );
     }
-
     private int sortMode = 0;
     private void sortById() {
         ArrayList<Integer> order = new ArrayList<>();
@@ -386,17 +385,23 @@ public class MainActivity extends AppCompatActivity {
             new_available.add(hike_available.get(i));
             new_description.add(hike_description.get(i));
         }
-        hike_id = new_id;
-        hike_name = new_name;
-        hike_location = new_location;
-        hike_date = new_date;
-        hike_length = new_length;
-        hike_level = new_level;
-        hike_available = new_available;
-        hike_description = new_description;
+        hike_id.clear(); hike_id.addAll(new_id);
+        hike_name.clear(); hike_name.addAll(new_name);
+        hike_location.clear(); hike_location.addAll(new_location);
+        hike_date.clear(); hike_date.addAll(new_date);
+        hike_length.clear(); hike_length.addAll(new_length);
+        hike_level.clear(); hike_level.addAll(new_level);
+        hike_available.clear(); hike_available.addAll(new_available);
+        hike_description.clear(); hike_description.addAll(new_description);
         customAdapter.updateData(
-                hike_id, hike_name, hike_location, hike_date,
-                hike_length, hike_level, hike_available, hike_description
+                new ArrayList<>(hike_id),
+                new ArrayList<>(hike_name),
+                new ArrayList<>(hike_location),
+                new ArrayList<>(hike_date),
+                new ArrayList<>(hike_length),
+                new ArrayList<>(hike_level),
+                new ArrayList<>(hike_available),
+                new ArrayList<>(hike_description)
         );
     }
     @Override

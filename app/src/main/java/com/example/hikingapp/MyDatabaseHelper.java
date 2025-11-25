@@ -12,25 +12,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     private static final String DATABASE_NAME = "HikeApp.db";
     private static final int DATABASE_VERSION = 3;
-
-    // ====== Bảng 1: Hike ======
-    private static final String TABLE_HIKE = "hike_list";
-    private static final String COLUMN_HIKE_ID = "hike_id";
-    private static final String COLUMN_HIKE_NAME = "hike_name";
-    private static final String COLUMN_HIKE_LOCATION = "hike_location";
-    private static final String COLUMN_HIKE_DATE = "hike_date";
-    private static final String COLUMN_HIKE_LENGTH = "hike_length";
-    private static final String COLUMN_HIKE_LEVEL = "hike_level";
-    private static final String COLUMN_HIKE_AVAILABLE = "hike_available";
-    private static final String COLUMN_HIKE_DESCRIPTION = "hike_description";
-
-    // ====== Bảng 2: Observation ======
-    private static final String TABLE_OBSERVATION = "observation_list";
-    private static final String COLUMN_OBS_ID = "observation_id";
-    private static final String COLUMN_OBS_HIKE_ID = "obs_hike_id"; // khác tên để dễ phân biệt
-    private static final String COLUMN_OBS_NAME = "observation_name";
-    private static final String COLUMN_OBS_DATE = "observation_date";
-    private static final String COLUMN_OBS_COMMENT = "observation_comment";
+    public static final String TABLE_HIKE = "hike_list";
+    public static final String COLUMN_HIKE_ID = "hike_id";
+    public static final String COLUMN_HIKE_NAME = "hike_name";
+    public static final String COLUMN_HIKE_LOCATION = "hike_location";
+    public static final String COLUMN_HIKE_DATE = "hike_date";
+    public static final String COLUMN_HIKE_LENGTH = "hike_length";
+    public static final String COLUMN_HIKE_LEVEL = "hike_level";
+    public static final String COLUMN_HIKE_AVAILABLE = "hike_available";
+    public static final String COLUMN_HIKE_DESCRIPTION = "hike_description";
+    public static final String TABLE_OBSERVATION = "observation_list";
+    public static final String COLUMN_OBS_ID = "observation_id";
+    public static final String COLUMN_OBS_HIKE_ID = "obs_hike_id";
+    public static final String COLUMN_OBS_NAME = "observation_name";
+    public static final String COLUMN_OBS_DATE = "observation_date";
+    public static final String COLUMN_OBS_COMMENT = "observation_comment";
 
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,7 +35,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Bảng Hike
         String createHikeTable =
                 "CREATE TABLE " + TABLE_HIKE + " (" +
                         COLUMN_HIKE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -52,7 +47,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_HIKE_DESCRIPTION + " TEXT);";
         db.execSQL(createHikeTable);
 
-        // Bảng Observation
         String createObservationTable =
                 "CREATE TABLE " + TABLE_OBSERVATION + " (" +
                         COLUMN_OBS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -70,8 +64,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HIKE);
         onCreate(db);
     }
-
-    // ------------------ Hike ------------------
     void addHike(String name, String location, String date, String length, String level, String available, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -126,19 +118,49 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_HIKE, null);
     }
 
-    // ------------------ Observation ------------------
-    public void addObservation(String hikeId, String name, String date, String comment) {
+    public boolean addObservation(int hikeId, String name, String date, String comment) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+
         cv.put(COLUMN_OBS_HIKE_ID, hikeId);
         cv.put(COLUMN_OBS_NAME, name);
         cv.put(COLUMN_OBS_DATE, date);
         cv.put(COLUMN_OBS_COMMENT, comment);
-        db.insert(TABLE_OBSERVATION, null, cv);
+
+        long result = db.insert(TABLE_OBSERVATION, null, cv);
+        return result != -1;
     }
 
-    public Cursor getObservationsByHikeId(String hikeId) {
+    public Cursor getObservationsByHike(int hikeId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_OBSERVATION + " WHERE " + COLUMN_OBS_HIKE_ID + " = ?", new String[]{hikeId});
+        return db.rawQuery(
+                "SELECT * FROM " + TABLE_OBSERVATION + " WHERE " + COLUMN_OBS_HIKE_ID + " = ? ORDER BY " + COLUMN_OBS_DATE + " DESC",
+                new String[]{String.valueOf(hikeId)}
+        );
+    }
+
+    public boolean updateObservation(int obsId, String name, String date, String comment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_OBS_NAME, name);
+        cv.put(COLUMN_OBS_DATE, date);
+        cv.put(COLUMN_OBS_COMMENT, comment);
+
+        int result = db.update(TABLE_OBSERVATION, cv,
+                COLUMN_OBS_ID + " = ?",
+                new String[]{String.valueOf(obsId)}
+        );
+
+        return result > 0;
+    }
+
+    public boolean deleteObservation(int obsId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_OBSERVATION,
+                COLUMN_OBS_ID + " = ?",
+                new String[]{String.valueOf(obsId)}
+        );
+        return result > 0;
     }
 }

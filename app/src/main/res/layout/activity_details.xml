@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:background="#F8F6F6">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -74,11 +77,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReset"
-            android:layout_width="70dp"
-            android:layout_height="42dp"
+            android:layout_width="80dp"
+            android:layout_height="46dp"
             android:backgroundTint="#F0F0F0"
-            android:elevation="4dp"
-            android:paddingStart="4dp"
+            android:elevation="6dp"
+            android:paddingStart="6dp"
             android:paddingEnd="4dp"
             android:text="@string/reset"
             android:textAllCaps="false"
@@ -94,7 +97,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnAddHike"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="10dp"
             tools:ignore="TouchTargetSizeCheck"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

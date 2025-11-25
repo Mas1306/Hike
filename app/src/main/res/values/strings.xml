@@ -58,4 +58,7 @@
     <string name="min_length_filters">Min length</string>
     <string name="max_length_filters">Max length</string>
     <string name="apply_filters">Apply Filters</string>
+    <string name="observation_input">Observation</string>
+    <string name="optional_notes">Optional notes...</string>
+    <string name="add_observation">Add Observation</string>
 </resources>
