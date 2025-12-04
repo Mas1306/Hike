@@ -27,12 +27,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_OBS_NAME = "observation_name";
     public static final String COLUMN_OBS_DATE = "observation_date";
     public static final String COLUMN_OBS_COMMENT = "observation_comment";
-
     public MyDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createHikeTable =
@@ -46,7 +44,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_HIKE_AVAILABLE + " INTEGER, " +
                         COLUMN_HIKE_DESCRIPTION + " TEXT);";
         db.execSQL(createHikeTable);
-
         String createObservationTable =
                 "CREATE TABLE " + TABLE_OBSERVATION + " (" +
                         COLUMN_OBS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -57,7 +54,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         "FOREIGN KEY(" + COLUMN_OBS_HIKE_ID + ") REFERENCES " + TABLE_HIKE + "(" + COLUMN_HIKE_ID + "));";
         db.execSQL(createObservationTable);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBSERVATION);
@@ -77,7 +73,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_HIKE, null, cv);
         Toast.makeText(context, result == -1 ? "Failed" : "Added Successfully", Toast.LENGTH_SHORT).show();
     }
-
     public boolean updateHike(String id, String name, String location, String date, String length, String level, String available, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -95,42 +90,34 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int result = db.update(TABLE_HIKE, cv, COLUMN_HIKE_ID + "=?", new String[]{id});
         return result > 0;
     }
-
     public Cursor getHikeById(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_HIKE + " WHERE " + COLUMN_HIKE_ID + "=?", new String[]{id});
     }
-
     public void deleteOneHike(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HIKE, COLUMN_HIKE_ID + "=?", new String[]{String.valueOf(id)});
     }
-
     public void resetDatabase() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_HIKE);
         db.execSQL("DELETE FROM " + TABLE_OBSERVATION);
         db.close();
     }
-
     Cursor readAllData() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_HIKE, null);
     }
-
     public boolean addObservation(int hikeId, String name, String date, String comment) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
         cv.put(COLUMN_OBS_HIKE_ID, hikeId);
         cv.put(COLUMN_OBS_NAME, name);
         cv.put(COLUMN_OBS_DATE, date);
         cv.put(COLUMN_OBS_COMMENT, comment);
-
         long result = db.insert(TABLE_OBSERVATION, null, cv);
         return result != -1;
     }
-
     public Cursor getObservationsByHike(int hikeId) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(
@@ -138,23 +125,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(hikeId)}
         );
     }
-
     public boolean updateObservation(int obsId, String name, String date, String comment) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-
         cv.put(COLUMN_OBS_NAME, name);
         cv.put(COLUMN_OBS_DATE, date);
         cv.put(COLUMN_OBS_COMMENT, comment);
-
         int result = db.update(TABLE_OBSERVATION, cv,
                 COLUMN_OBS_ID + " = ?",
                 new String[]{String.valueOf(obsId)}
         );
-
         return result > 0;
     }
-
     public boolean deleteObservation(int obsId) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_OBSERVATION,

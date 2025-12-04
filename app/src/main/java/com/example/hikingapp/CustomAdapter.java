@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.button.MaterialButton;
-
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
@@ -22,7 +20,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                   ArrayList<String> hike_location, ArrayList<String> hike_date,
                   ArrayList<String> hike_length, ArrayList<String> hike_level,
                   ArrayList<String> hike_available, ArrayList<String> hike_description) {
-
         this.context = context;
         this.hike_id = hike_id;
         this.hike_name = hike_name;
@@ -33,14 +30,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.hike_available = hike_available;
         this.hike_description = hike_description;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_hike, parent, false);
         return new MyViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.hike_name_txt.setText(hike_name.get(position));
@@ -54,9 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         } else {
             holder.hike_available_txt.setText("No Parking");
         }
-
         String desc = hike_description.get(position);
-
         if (desc == null || desc.trim().isEmpty() || desc.equalsIgnoreCase("null")) {
             holder.hike_description_txt.setVisibility(View.GONE);
         } else {
@@ -64,7 +57,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             holder.hike_description_txt.setText(desc);
         }
         String level = hike_level.get(position);
-
         holder.hike_level_txt.setText(level);
         switch (level.toLowerCase()) {
             case "easy":
@@ -115,7 +107,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         shape.setCornerRadius(20f);
         return shape;
     }
-
     @Override
     public int getItemCount() {
         return hike_id.size();
@@ -148,28 +139,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                            ArrayList<String> description) {
         this.hike_id.clear();
         this.hike_id.addAll(id);
-
         this.hike_name.clear();
         this.hike_name.addAll(name);
-
         this.hike_location.clear();
         this.hike_location.addAll(location);
-
         this.hike_date.clear();
         this.hike_date.addAll(date);
-
         this.hike_length.clear();
         this.hike_length.addAll(length);
-
         this.hike_level.clear();
         this.hike_level.addAll(level);
-
         this.hike_available.clear();
         this.hike_available.addAll(available);
-
         this.hike_description.clear();
         this.hike_description.addAll(description);
-
         notifyDataSetChanged();
     }
     public interface OnDeleteClickListener {
@@ -179,5 +162,4 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void setOnDeleteClickListener(OnDeleteClickListener listener) {
         this.deleteClickListener = listener;
     }
-
 }

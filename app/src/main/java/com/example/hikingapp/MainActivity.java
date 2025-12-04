@@ -67,21 +67,17 @@ public class MainActivity extends AppCompatActivity {
         master_level = new ArrayList<>();
         master_available = new ArrayList<>();
         master_description = new ArrayList<>();
-
         customAdapter = new CustomAdapter(
                 this, hike_id, hike_name, hike_location, hike_date, hike_length, hike_level, hike_available, hike_description
         );
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         add_button = findViewById(R.id.btnAddHike);
         add_button.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddActivity.class);
             startActivity(intent);
         });
-
         reset_button = findViewById(R.id.btnReset);
         reset_button.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_reset, null);
@@ -97,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
             });
         });
-
         customAdapter.setOnDeleteClickListener(hikeId -> {
             new MaterialAlertDialogBuilder(MainActivity.this)
                     .setTitle("Delete Hike?")
@@ -109,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton("Cancel", null)
                     .show();
         });
-
         searchInput = findViewById(R.id.etSearch);
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -176,14 +170,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         });
-
         String[] levels = {"Easy", "Moderate", "Very Hard"};
         ArrayAdapter<String> diffAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, levels);
         AutoCompleteTextView autoDiff = findViewById(R.id.autoFilterDifficulty);
         autoDiff.setAdapter(diffAdapter);
         autoDiff.setThreshold(1);
         autoDiff.setOnClickListener(v -> autoDiff.showDropDown());
-
         filterPanel = findViewById(R.id.filterPanel);
         btnFilters = findViewById(R.id.btnFilters);
         btnCloseFilter = findViewById(R.id.btnCloseFilter);
@@ -254,7 +246,6 @@ public class MainActivity extends AppCompatActivity {
             );
             closeFilterPanel();
         });
-
         overlay = findViewById(R.id.overlay);
         btnCloseFilter.setOnClickListener(v -> closeFilterPanel());
         btnClearFilters.setOnClickListener(v -> {
@@ -268,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
         });
         loadHikeList();
     }
-
     private void loadHikeList() {
         Cursor cursor = myDB.readAllData();
         master_id.clear();
@@ -293,33 +283,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (cursor != null) cursor.close();
-
         hike_id.clear();
         hike_id.addAll(master_id);
-
         hike_name.clear();
         hike_name.addAll(master_name);
-
         hike_location.clear();
         hike_location.addAll(master_location);
-
         hike_date.clear();
         hike_date.addAll(master_date);
-
         hike_length.clear();
         hike_length.addAll(master_length);
-
         hike_level.clear();
         hike_level.addAll(master_level);
-
         hike_available.clear();
         hike_available.addAll(master_available);
-
         hike_description.clear();
         hike_description.addAll(master_description);
-
         customAdapter.notifyDataSetChanged();
-
         if (hike_id.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);

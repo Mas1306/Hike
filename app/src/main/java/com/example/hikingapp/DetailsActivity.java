@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -28,11 +27,9 @@ public class DetailsActivity extends AppCompatActivity {
     MyDatabaseHelper myDB;
     RecyclerView recyclerViewObs;
     View emptyLayout;
-
     ArrayList<String> obs_id, obs_name, obs_time, obs_comment;
     ObservationAdapter obsAdapter;
     int hikeId = -1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,16 +57,13 @@ public class DetailsActivity extends AppCompatActivity {
         availableTv = findViewById(R.id.available_details);
         descriptionTv = findViewById(R.id.description_details);
         hike_description_details = findViewById(R.id.hike_description_details);
-
         Intent intent = getIntent();
-
         String name = intent.getStringExtra("name");
         String location = intent.getStringExtra("location");
         String date = intent.getStringExtra("date");
         String length = intent.getStringExtra("length");
         String level = intent.getStringExtra("level");
         switch (level.toLowerCase()) {
-
             case "easy":
                 levelTv.setBackground(createLevelBackground(Color.parseColor("#C8E6C9")));
                 levelTv.setTextColor(Color.parseColor("#1B5E20"));
@@ -97,14 +91,12 @@ public class DetailsActivity extends AppCompatActivity {
             descriptionTv.setVisibility(View.VISIBLE);
             descriptionTv.setText(description.trim());
         }
-
         nameTv.setText(name);
         locationTv.setText(location);
         dateTv.setText(date);
         lengthTv.setText(length + " km");
         levelTv.setText(level);
         availableTv.setText(available);
-
         if (description == null || description.trim().isEmpty()) {
             descriptionTv.setVisibility(View.GONE);
         } else {
@@ -112,13 +104,11 @@ public class DetailsActivity extends AppCompatActivity {
             descriptionTv.setText(description);
         }
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
         add_button = findViewById(R.id.btnAddHike);
         add_button.setOnClickListener(v -> {
             Intent intent1 = new Intent(DetailsActivity.this, AddActivity.class);
             startActivity(intent1);
         });
-
         reset_button = findViewById(R.id.btnReset);
         reset_button.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_reset, null);
@@ -137,7 +127,6 @@ public class DetailsActivity extends AppCompatActivity {
                 finish();
             });
         });
-
         edit_button = findViewById(R.id.btnEdit);
         edit_button.setOnClickListener(v -> {
             Intent editIntent = new Intent(DetailsActivity.this, AddActivity.class);
@@ -161,13 +150,10 @@ public class DetailsActivity extends AppCompatActivity {
         });
         recyclerViewObs = findViewById(R.id.recyclerView2);
         emptyLayout = findViewById(R.id.emptyLayout);
-
         add_button = findViewById(R.id.btnAddHike);
         reset_button = findViewById(R.id.btnReset);
         edit_button = findViewById(R.id.btnEdit);
-
         loadHikeInfoFromIntent();
-
         obs_id = new ArrayList<>();
         obs_name = new ArrayList<>();
         obs_time = new ArrayList<>();
@@ -283,7 +269,6 @@ public class DetailsActivity extends AppCompatActivity {
             descriptionTv.setText(description.trim());
         }
     }
-
     private void loadObservations() {
         obs_id.clear();
         obs_name.clear();
@@ -295,7 +280,6 @@ public class DetailsActivity extends AppCompatActivity {
             emptyLayout.setVisibility(View.VISIBLE);
             return;
         }
-
         Cursor cursor = myDB.getObservationsByHike(hikeId);
         if (cursor == null || cursor.getCount() == 0) {
             if (cursor != null) cursor.close();
@@ -303,7 +287,6 @@ public class DetailsActivity extends AppCompatActivity {
             emptyLayout.setVisibility(View.VISIBLE);
             return;
         }
-
         while (cursor.moveToNext()) {
             obs_id.add(cursor.getString(cursor.getColumnIndexOrThrow(MyDatabaseHelper.COLUMN_OBS_ID)));
             obs_name.add(cursor.getString(cursor.getColumnIndexOrThrow(MyDatabaseHelper.COLUMN_OBS_NAME)));
@@ -311,15 +294,12 @@ public class DetailsActivity extends AppCompatActivity {
             obs_comment.add(cursor.getString(cursor.getColumnIndexOrThrow(MyDatabaseHelper.COLUMN_OBS_COMMENT)));
         }
         cursor.close();
-
         emptyLayout.setVisibility(View.GONE);
         recyclerViewObs.setVisibility(View.VISIBLE);
         obsAdapter.notifyDataSetChanged();
     }
-
     private void showAddObservationDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_observation, null);
-
         AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setView(dialogView)
                 .setCancelable(true)
@@ -327,14 +307,11 @@ public class DetailsActivity extends AppCompatActivity {
 
         dialog.show();
         if (dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
         TextInputEditText etName = dialogView.findViewById(R.id.etObservationName);
         TextInputEditText etComment = dialogView.findViewById(R.id.etObservationComment);
         MaterialButton btnSave = dialogView.findViewById(R.id.btnSaveObservation);
         MaterialButton btnClose = dialogView.findViewById(R.id.btnCloseObservationDialog);
-
         btnClose.setOnClickListener(v -> dialog.dismiss());
-
         btnSave.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             String comment = etComment.getText().toString().trim();
@@ -353,7 +330,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
     }
-
     private void showEditObservationDialog(String obsId, String currentName, String currentComment) {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_observation, null);
 
@@ -361,20 +337,15 @@ public class DetailsActivity extends AppCompatActivity {
                 .setView(dialogView)
                 .setCancelable(true)
                 .create();
-
         dialog.show();
         if (dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
         TextInputEditText etName = dialogView.findViewById(R.id.etObservationName);
         TextInputEditText etComment = dialogView.findViewById(R.id.etObservationComment);
         MaterialButton btnSave = dialogView.findViewById(R.id.btnSaveObservation);
         MaterialButton btnClose = dialogView.findViewById(R.id.btnCloseObservationDialog);
-
         etName.setText(currentName);
         etComment.setText(currentComment != null ? currentComment : "");
-
         btnClose.setOnClickListener(v -> dialog.dismiss());
-
         btnSave.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             String comment = etComment.getText().toString().trim();

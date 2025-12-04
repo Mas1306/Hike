@@ -23,9 +23,7 @@ public class AddActivity extends AppCompatActivity {
     AutoCompleteTextView level_input;
     SwitchMaterial available_input;
     TextView title;
-
     String hikeId = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +35,6 @@ public class AddActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         name_input = findViewById(R.id.etNameHike);
         location_input = findViewById(R.id.etLocationHike);
         date_input = findViewById(R.id.etDateHike);
@@ -48,17 +45,14 @@ public class AddActivity extends AppCompatActivity {
         esc_button = findViewById(R.id.btnCloseAdd);
         create_button = findViewById(R.id.btnCreateHike);
         title = findViewById(R.id.titleHike);
-
         String[] levels = {"Easy", "Moderate", "Very Hard"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, levels);
         level_input.setAdapter(adapter);
-
         date_input.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     AddActivity.this,
                     (view, selectedYear, selectedMonth, selectedDay) -> {
@@ -72,7 +66,6 @@ public class AddActivity extends AppCompatActivity {
             datePickerDialog.getDatePicker().setMinDate(min.getTimeInMillis());
             datePickerDialog.show();
         });
-
         esc_button.setOnClickListener(v -> finish());
         create_button.setOnClickListener(v -> {
             String name = name_input.getText().toString().trim();
@@ -99,10 +92,8 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(this, "Length must be between 0 and 100.", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             String available = available_input.isChecked() ? "1" : "0";
             MyDatabaseHelper myDB = new MyDatabaseHelper(AddActivity.this);
-
             boolean success;
             if (hikeId != null && !hikeId.trim().isEmpty()) {
                 success = myDB.updateHike(hikeId, name, location, date, String.valueOf(length), level, available, descriptionText);
@@ -116,23 +107,19 @@ public class AddActivity extends AppCompatActivity {
                 myDB.addHike(name, location, date, String.valueOf(length), level, available, descriptionText);
                 Toast.makeText(this, "Hike added successfully!", Toast.LENGTH_SHORT).show();
             }
-
             Intent resultIntent = new Intent();
             resultIntent.putExtra("updated", true);
             setResult(RESULT_OK, resultIntent);
             finish();
         });
-
         Intent intent = getIntent();
         hikeId = intent.getStringExtra("hike_id");
         boolean isUpdate = hikeId != null && !hikeId.trim().isEmpty();
-
         if (isUpdate) {
             name_input.setText(intent.getStringExtra("name"));
             location_input.setText(intent.getStringExtra("location"));
             date_input.setText(intent.getStringExtra("date"));
             length_input.setText(intent.getStringExtra("length"));
-
             String levelValue = intent.getStringExtra("level");
             if (levelValue != null) {
                 level_input.setText(levelValue, false);
@@ -145,7 +132,6 @@ public class AddActivity extends AppCompatActivity {
             } else {
                 description_input.setText("");
             }
-
             create_button.setText("Update Hike");
             title.setText("Update This Hike");
         } else {

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">HikingApp</string>
-    <string name="hiking_tracker">Hiking Tracker</string>
+    <string name="hiking_tracker">HIKING JOURNEY</string>
     <string name="track_your_adventures">Track your adventures</string>
     <string name="button">Add Hike</string>
     <string name="add_hike">Add Hike</string>
@@ -45,7 +45,7 @@
     <string name="no_hikes">No Hikes Found</string>
     <string name="no_observation">No observations yet</string>
     <string name="try_adjusting_your_search_filters">Try adjusting your search filters</string>
-    <string name="add_your_observation">Add your first observation to track what you see on this hike</string>
+    <string name="add_your_observation">Try to click add observation button and type your comment</string>
     <string name="sort">Sort by number</string>
     <string name="update_hike">Update Hike</string>
     <string name="update_title">Update Hike Now</string>
